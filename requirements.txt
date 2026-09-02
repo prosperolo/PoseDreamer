@@ -1,0 +1,44 @@
+# Core
+numpy>=1.26.3
+scipy>=1.11
+opencv-python>=4.9.0.80
+Pillow>=10.0
+matplotlib>=3.5.0
+tqdm>=4.60.0
+fire>=0.4.0
+hydra-core>=1.3.2
+deepdish>=0.3.7
+loguru>=0.7
+
+# Diffusion / generation stack (FLUX + EasyControl + DPO alignment)
+torch>=2.0.0
+transformers==4.41.2
+accelerate==0.24.1  # not imported here directly, but required by EasyControl's trainer
+diffusers==0.27.2
+pytorch-lightning==2.5.2
+peft
+huggingface_hub
+
+# Body models & rendering
+smplx==0.1.28
+trimesh>=3.15.0
+pyrender>=0.1.45
+kornia>=0.7.2
+
+# Detection / pose / DensePose
+ultralytics>=8.2.48
+pycocotools>=2.0.7
+scikit-image>=0.22
+git+https://github.com/facebookresearch/detectron2.git
+git+https://github.com/facebookresearch/detectron2#subdirectory=projects/DensePose
+# VGGHeads head detector, used by the head-pose filter:
+# TODO: fill in the pip package name providing `head_detector`
+# vgg-heads
+
+# Hard sample mining (LightGBM OKS predictor)
+lightgbm>=3.3.0
+scikit-learn>=1.0.0
+pandas>=1.3.0
+
+# Metrics (IS / FID)
+torchmetrics>=1.0

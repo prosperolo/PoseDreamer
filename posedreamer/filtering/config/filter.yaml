@@ -1,0 +1,41 @@
+# Hydra defaults - allows easy overriding with command line
+defaults:
+  - action: copy
+  - _self_
+
+# Input entries: each maps a directory of generated images to the directories
+# holding its control renders and .h5 labels. 'smplx' and 'smpl' are both
+# optional — provide whichever label format the source has.
+# Set filecount_suffix: false if image names already match label names 1:1
+# (by default, images named <name>_<i>.jpg share the label file <name>.h5).
+input_directories:
+  - images: /path/to/generated-images
+    densepose: /path/to/densepose-renders
+    smplx: /path/to/smplx-gt-labels
+    # smpl: /path/to/smpl-gt-labels
+    # filecount_suffix: true
+
+# Filtering stages configuration using Hydra instantiate
+filters:
+  - _target_: posedreamer.filtering.filters.keypoint_filter.KeypointFilter
+    name: "keypoint_similarity"
+    min_oks: 0.85
+    max_detections: 4
+    model_name: "yolov8x-pose.pt"
+  # Head-pose consistency filter (requires SMPL-X labels; smplx_model_path
+  # defaults to posedreamer/weights).
+  # - _target_: posedreamer.filtering.filters.head_pose_filter.HeadPoseFilter
+  #   name: "head_pose_filter"
+  #   max_mae_rpy: 25.0
+  #   device: "cpu"
+
+# General settings
+settings:
+  # Print progress and statistics
+  verbose: true
+
+  # Number of samples to process (0 = all)
+  max_samples: 0
+
+  # Progress report interval
+  progress_interval: 100

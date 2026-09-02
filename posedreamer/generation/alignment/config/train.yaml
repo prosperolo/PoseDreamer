@@ -1,0 +1,60 @@
+# DPO Training Configuration for EasyControl
+
+# Dataset Configuration
+dataset:
+  metadata_path: ???  # Folder of per-sample OKS metadata JSONs, or one merged JSON file
+  metric_name: "oks_metric"
+  metric_mode: "max"  # Higher OKS is better
+  image_size: 1024
+  cond_size: 512
+
+# Model Configuration  
+model:
+  pretrained_model_name_or_path: "black-forest-labs/FLUX.1-dev"
+  control_lora_path: ???  # lora.safetensors from the spatial-control training (train_spatial.sh)
+  learning_rate: 5e-5
+  beta: 100
+  gradient_checkpointing: true
+
+# Training Configuration
+training:
+  batch_size: 1
+  num_workers: 4
+  max_epochs: 100
+  gradient_accumulation_steps: 16
+  checkpoint_every_n_steps: 50
+
+# PyTorch Lightning Trainer Configuration
+trainer:
+  accelerator: "auto"
+  devices: 1
+  precision: "bf16-mixed"
+  strategy: "auto"
+  enable_checkpointing: true
+  enable_progress_bar: true
+  enable_model_summary: true
+
+# Logging Configuration
+logging:
+  project_name: "dpo-easycontrol"
+  experiment_name: "oks-dpo-training"
+  log_dir: "./logs"
+
+# Paths Configuration
+paths:
+  output_dir: "./outputs"
+  checkpoint_dir: "${paths.output_dir}/checkpoints"
+  results_dir: "${paths.output_dir}/results"
+
+# Reproducibility
+seed: 42
+
+# Hydra Configuration
+hydra:
+  run:
+    dir: ${paths.output_dir}/${now:%Y-%m-%d_%H-%M-%S}
+  job:
+    chdir: true
+
+defaults:
+  - _self_

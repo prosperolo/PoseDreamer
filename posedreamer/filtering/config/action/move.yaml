@@ -1,0 +1,4 @@
+# @package action
+_target_: posedreamer.filtering.actions.MoveFilesAction
+dest_base_dir: ???  # e.g. action.dest_base_dir=/path/to/filtered-output
+preserve_structure: true 

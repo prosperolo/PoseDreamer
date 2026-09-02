@@ -1,0 +1,1 @@
+Download transfer_data following the instructions at https://github.com/vchoutas/smplx/tree/main/transfer_model
